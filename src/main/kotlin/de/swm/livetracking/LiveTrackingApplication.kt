@@ -9,8 +9,11 @@ import org.springframework.integration.annotation.IntegrationComponentScan
 import org.springframework.integration.annotation.MessagingGateway
 import org.springframework.integration.annotation.ServiceActivator
 import org.springframework.integration.channel.DirectChannel
+import org.springframework.integration.core.MessageProducer
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory
+import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler
+import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter
 import org.springframework.messaging.MessageHandler
 
 object ApplicationSettings {
@@ -40,6 +43,22 @@ class LiveTrackingApplication {
 
     @Bean
     fun mqttOutboundChannel() = DirectChannel()
+    @Bean
+    fun mqttInboundChannel() = DirectChannel()
+
+    @Bean
+    fun inbound(): MessageProducer {
+        return MqttPahoMessageDrivenChannelAdapter(ApplicationSettings.url, ApplicationSettings.clientName, ApplicationSettings.topic).apply {
+            setCompletionTimeout(5000)
+            setConverter(DefaultPahoMessageConverter())
+            setQos(1)
+            outputChannel = mqttInboundChannel()
+        }
+    }
+
+    @Bean
+    @ServiceActivator(inputChannel = "mqttInboundChannel")
+    fun handler() = MessageHandler { message -> println(message.payload) }
 }
 
 @MessagingGateway(defaultRequestChannel = "mqttOutboundChannel")
@@ -52,8 +71,8 @@ fun main(args: Array<String>) {
     val gateway = context.getBean(MyGateway::class.java)
     Thread {
         while(true) {
-            gateway.sendToMqtt("${System.currentTimeMillis()}: Status: Bus lol!")
-            Thread.sleep(500)
+            Thread.sleep(1000)
+            //gateway.sendToMqtt("${System.currentTimeMillis()}: Status: Bus lol!")
         }
     }.start()
 }
