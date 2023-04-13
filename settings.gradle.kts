@@ -1,1 +1,2 @@
-rootProject.name = "LiveTracking"
+include("VehicleApplication")
+include("FrontendApplication")
