@@ -10,13 +10,12 @@ import org.springframework.integration.annotation.MessagingGateway
 import org.springframework.integration.annotation.ServiceActivator
 import org.springframework.integration.channel.DirectChannel
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory
-import org.springframework.integration.mqtt.core.MqttPahoClientFactory
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler
 import org.springframework.messaging.MessageHandler
 
 object ApplicationSettings {
     val clientName = "LiveTrackingApplication"
-    val url = "tcp://broker.mqttdashboard.com"
+    val url = "tcp://broker.hivemq.com"
     val topic = "sven"
 }
 
@@ -51,6 +50,10 @@ interface MyGateway {
 fun main(args: Array<String>) {
     val context = SpringApplicationBuilder(LiveTrackingApplication::class.java).web(WebApplicationType.NONE).run(*args)
     val gateway = context.getBean(MyGateway::class.java)
-    gateway.sendToMqtt("Hello max! 8)")
-    gateway.sendToMqtt("ich komm von spring boot lol! haha! ${System.currentTimeMillis()}")
+    Thread {
+        while(true) {
+            gateway.sendToMqtt("${System.currentTimeMillis()}: Status: Bus lol!")
+            Thread.sleep(500)
+        }
+    }.start()
 }
