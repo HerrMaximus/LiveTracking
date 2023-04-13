@@ -16,12 +16,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
+    implementation(group = "com.fasterxml.jackson.module", name = "jackson-module-kotlin")
+    implementation(group = "org.jetbrains.kotlin", name = "kotlin-reflect")
     implementation(group = "org.springframework.integration", name = "spring-integration-mqtt", version = "6.0.4")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    developmentOnly(group = "org.springframework.boot", name = "spring-boot-devtools")
+    testImplementation(group = "org.springframework.boot", name = "spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
