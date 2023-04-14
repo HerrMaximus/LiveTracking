@@ -7,16 +7,13 @@ import org.springframework.integration.annotation.IntegrationComponentScan
 import org.springframework.integration.annotation.MessagingGateway
 import org.springframework.integration.annotation.ServiceActivator
 import org.springframework.integration.channel.DirectChannel
-import org.springframework.integration.core.MessageProducer
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory
-import org.springframework.integration.mqtt.inbound.MqttPahoMessageDrivenChannelAdapter
 import org.springframework.integration.mqtt.outbound.MqttPahoMessageHandler
-import org.springframework.integration.mqtt.support.DefaultPahoMessageConverter
 import org.springframework.messaging.MessageHandler
 
 @SpringBootApplication
 @IntegrationComponentScan
-class VehicleApplication() {
+class VehicleApplication {
     @Bean
     fun mqttClientFactory() = DefaultMqttPahoClientFactory().apply {
         connectionOptions = MqttConnectOptions().apply {
@@ -32,7 +29,7 @@ class VehicleApplication() {
     fun mqttOutbound(): MessageHandler {
         return MqttPahoMessageHandler("frontend-changeme", mqttClientFactory()).apply {
             setAsync(true)
-            setDefaultTopic(ApplicationSettings.topic)
+            setDefaultTopic(ApplicationSettings.topic + "/${ApplicationSettings.id}")
         }
     }
 }

@@ -29,7 +29,7 @@ class FrontendApplication {
 
     @Bean
     fun inbound(): MessageProducer {
-        return MqttPahoMessageDrivenChannelAdapter(ApplicationSettings.url, "bus-changeme", ApplicationSettings.topic).apply {
+        return MqttPahoMessageDrivenChannelAdapter(ApplicationSettings.url, "bus-changeme", ApplicationSettings.topic + "/#").apply {
             setCompletionTimeout(5000)
             setConverter(DefaultPahoMessageConverter())
             setQos(1)
@@ -37,9 +37,12 @@ class FrontendApplication {
         }
     }
 
-
-
     @Bean
     @ServiceActivator(inputChannel = "mqttInboundChannel")
-    fun handler() = MessageHandler { message -> println(message.payload) }
+    fun handler() = MessageHandler { message ->
+        val topicRaw = ApplicationSettings.topic.replace("#", "")
+        var vehicleID = message.headers["mqtt_receivedTopic"].toString().replace(topicRaw, "")
+        if(vehicleID.startsWith("/")) vehicleID = vehicleID.replaceFirst("/", "")
+        println("$vehicleID: ${message.payload}")
+    }
 }
