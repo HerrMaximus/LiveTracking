@@ -1,5 +1,6 @@
 package de.swm.gui
 
+import com.formdev.flatlaf.FlatDarculaLaf
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.*
@@ -11,6 +12,8 @@ class GUI : JFrame() {
     private var messageList = JList<String>()
 
     init {
+        UIManager.setLookAndFeel(FlatDarculaLaf())
+        setDefaultLookAndFeelDecorated(true)
         createUI()
     }
 
