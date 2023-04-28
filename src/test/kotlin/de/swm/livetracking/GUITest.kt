@@ -6,7 +6,7 @@ import javax.swing.SwingUtilities
 
 class GUITest {
     @Test
-    fun `Create and build the GUI`() {
+    fun `Create the UI`() {
         SwingUtilities.invokeLater {
             GUI()
         }
