@@ -1,6 +1,6 @@
 package de.swm.livetracking
 
-import de.swm.GUI.GUI
+import de.swm.gui.GUI
 import org.junit.jupiter.api.Test
 import javax.swing.SwingUtilities
 
