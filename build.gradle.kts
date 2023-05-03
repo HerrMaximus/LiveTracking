@@ -21,6 +21,8 @@ dependencies {
     implementation(group = "org.jetbrains.kotlin", name = "kotlin-reflect")
     implementation(group = "org.springframework.integration", name = "spring-integration-mqtt", version = "6.0.4")
     implementation(group = "com.formdev", name = "flatlaf", version = "3.1.1")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("io.projectreactor.netty:reactor-netty-http")
     developmentOnly(group = "org.springframework.boot", name = "spring-boot-devtools")
     testImplementation(group = "org.springframework.boot", name = "spring-boot-starter-test")
 }
