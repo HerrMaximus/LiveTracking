@@ -13,6 +13,6 @@ fun main() {
     UIManager.put("ScrollBar.showButtons", true)
     UIManager.put("ScrollBar.width", 16)
     UIManager.put("TabbedPane.showTabSeparators", true)
-    
+
     GUI()
 }
