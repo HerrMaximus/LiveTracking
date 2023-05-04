@@ -23,6 +23,7 @@ dependencies {
     implementation(group = "com.formdev", name = "flatlaf", version = "3.1.1")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.projectreactor.netty:reactor-netty-http")
+    implementation ("org.springframework.boot:spring-boot-starter-websocket")
     developmentOnly(group = "org.springframework.boot", name = "spring-boot-devtools")
     testImplementation(group = "org.springframework.boot", name = "spring-boot-starter-test")
 }
