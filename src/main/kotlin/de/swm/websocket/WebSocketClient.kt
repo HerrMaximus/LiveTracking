@@ -57,7 +57,7 @@ class ReactiveWebSocketClient {
     fun start() {
         val client: WebSocketClient = ReactorNettyWebSocketClient()
         client.execute(
-            URI.create("wss://demo.piesocket.com/v3/channel_123?api_key=VCXCEuvhGcBDP7XhiJJUDvR1e1D3eiVjgZ9VRiaV")
+            URI.create("wss://socketsbay.com/wss/v2/1/demo/")
         ) { session ->
             session.send(Flux.just(session.textMessage("Hello")))
                 .thenMany(session.receive().take(1).log())
