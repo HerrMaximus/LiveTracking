@@ -2,6 +2,7 @@ package de.swm.gui
 
 import java.awt.BorderLayout
 import java.awt.Dimension
+import java.awt.event.ActionListener
 import javax.swing.*
 
 class GUI : JFrame() {
@@ -12,6 +13,10 @@ class GUI : JFrame() {
 
     init {
         createUI()
+    }
+
+    val sendMessageListener = ActionListener {
+        //
     }
 
     private fun createUI() {
@@ -38,6 +43,7 @@ class GUI : JFrame() {
 
         // Button to send message
         val sendButton = JButton("Send message")
+        sendButton.addActionListener(sendMessageListener)
         topPanel.add(sendButton)
 
         // Panel for the bottom section of the GUI
