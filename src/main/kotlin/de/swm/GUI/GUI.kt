@@ -2,7 +2,7 @@ package de.swm.gui
 
 import java.awt.BorderLayout
 import java.awt.Dimension
-import java.awt.event.ActionListener
+import java.awt.FlowLayout
 import javax.swing.*
 
 class GUI : JFrame("MQTT Client") {
@@ -10,65 +10,46 @@ class GUI : JFrame("MQTT Client") {
         createGUI()
     }
 
+    fun createGUI() {
+        defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+        size = Dimension(400, 600)
+        setLocationRelativeTo(null) //Center from the monitor
+        layout = BorderLayout(10, 10)
 
+        //Upper area
         val topPanel = JPanel()
-        topPanel.layout = BoxLayout(topPanel, BoxLayout.PAGE_AXIS)
         topPanel.layout = BoxLayout(topPanel, BoxLayout.Y_AXIS)
         add(topPanel, BorderLayout.NORTH)
 
-        // Label for username
-        val usernameLabel = JLabel("Your username")
         val usernameLabel = JLabel("Username:")
         usernameLabel.alignmentX = CENTER_ALIGNMENT
         topPanel.add(usernameLabel)
 
-        // Text field for username
-        usernameField.preferredSize = Dimension(200, 30)
-        topPanel.add(usernameField)
         val usernameTextField = JTextField("")
         usernameTextField.alignmentX = CENTER_ALIGNMENT
         topPanel.add(usernameTextField)
 
-        // Text field for message
-        messageField.preferredSize = Dimension(200, 30)
-        topPanel.add(messageField)
         val passwordLabel = JLabel("Password:")
         passwordLabel.alignmentX = CENTER_ALIGNMENT
         topPanel.add(passwordLabel)
 
-        // Button to send message
-        val sendButton = JButton("Send message")
-        sendButton.addActionListener(sendMessageListener)
-        topPanel.add(sendButton)
         val passwordTextField = JTextField("")
         passwordTextField.alignmentX = CENTER_ALIGNMENT
         topPanel.add(passwordTextField)
 
-        // Panel for the bottom section of the GUI
-        val bottomPanel = JPanel()
-        bottomPanel.layout = BorderLayout()
         val connectPanel = JPanel()
         connectPanel.layout = FlowLayout(FlowLayout.CENTER)
         connectPanel.alignmentX = CENTER_ALIGNMENT
         topPanel.add(connectPanel)
 
-        // List for displaying messages
-        messageList.preferredSize = Dimension(450, 400)
-        messageList.selectionMode = ListSelectionModel.SINGLE_SELECTION
         val connectButton = JButton("Connect")
         connectButton.addActionListener { connectButtonClicked(usernameTextField.text, passwordTextField.text) }
         connectPanel.add(connectButton)
 
-        // Scroll pane for the message list
-        val scrollPane = JScrollPane(messageList)
-        bottomPanel.add(scrollPane, BorderLayout.CENTER)
         val statusLabel = JLabel("Status: ")
         statusLabel.alignmentX = CENTER_ALIGNMENT
         connectPanel.add(statusLabel)
 
-        // Add the top and bottom panels to the main frame
-        add(topPanel, BorderLayout.NORTH)
-        add(bottomPanel, BorderLayout.SOUTH)
         val connectionStatusLabel = JLabel("Disconnected")
         connectionStatusLabel.alignmentX = CENTER_ALIGNMENT
         connectPanel.add(connectionStatusLabel)
