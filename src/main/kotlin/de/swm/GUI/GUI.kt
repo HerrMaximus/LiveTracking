@@ -1,6 +1,7 @@
 package de.swm.gui
 
 import java.awt.BorderLayout
+import java.awt.Color
 import java.awt.Dimension
 import java.awt.FlowLayout
 import javax.swing.*
@@ -51,6 +52,7 @@ class GUI : JFrame("MQTT Client") {
         connectPanel.add(statusLabel)
 
         val connectionStatusLabel = JLabel("Disconnected")
+        connectionStatusLabel.foreground = Color.red
         connectionStatusLabel.alignmentX = CENTER_ALIGNMENT
         connectPanel.add(connectionStatusLabel)
 
