@@ -11,8 +11,8 @@ class GUI : JFrame("MQTT Client") {
         createGUI()
     }
 
-    fun createGUI() {
-        defaultCloseOperation = JFrame.EXIT_ON_CLOSE
+    private fun createGUI() {
+        defaultCloseOperation = EXIT_ON_CLOSE
         size = Dimension(400, 600)
         setLocationRelativeTo(null) //Center from the monitor
         layout = BorderLayout(10, 10)
@@ -88,7 +88,7 @@ class GUI : JFrame("MQTT Client") {
         logPanel.add(Box.createVerticalGlue())
 
         val logList = JList<String>()
-        logList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+        logList.selectionMode = ListSelectionModel.SINGLE_SELECTION
 
         val scrollPane = JScrollPane(logList) //TODO: Not working, it isnt visible
         logPanel.add(scrollPane)
