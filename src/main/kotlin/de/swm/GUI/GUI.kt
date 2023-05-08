@@ -7,6 +7,12 @@ import java.awt.FlowLayout
 import javax.swing.*
 
 class GUI : JFrame("MQTT Client") {
+    val usernameTextField = JTextField()
+    val passwordTextField = JTextField()
+    val connectionStatusLabel = JLabel("Disconnected")
+    val messageTextField = JTextField()
+    val logList = JList<String>()
+
     init {
         createGUI()
     }
@@ -26,7 +32,6 @@ class GUI : JFrame("MQTT Client") {
         usernameLabel.alignmentX = CENTER_ALIGNMENT
         topPanel.add(usernameLabel)
 
-        val usernameTextField = JTextField("")
         usernameTextField.alignmentX = CENTER_ALIGNMENT
         topPanel.add(usernameTextField)
 
@@ -34,7 +39,6 @@ class GUI : JFrame("MQTT Client") {
         passwordLabel.alignmentX = CENTER_ALIGNMENT
         topPanel.add(passwordLabel)
 
-        val passwordTextField = JTextField("")
         passwordTextField.alignmentX = CENTER_ALIGNMENT
         topPanel.add(passwordTextField)
 
@@ -51,7 +55,6 @@ class GUI : JFrame("MQTT Client") {
         statusLabel.alignmentX = CENTER_ALIGNMENT
         connectPanel.add(statusLabel)
 
-        val connectionStatusLabel = JLabel("Disconnected")
         connectionStatusLabel.foreground = Color.red
         connectionStatusLabel.alignmentX = CENTER_ALIGNMENT
         connectPanel.add(connectionStatusLabel)
@@ -65,7 +68,6 @@ class GUI : JFrame("MQTT Client") {
         messageLabel.alignmentX = CENTER_ALIGNMENT
         middlePanel.add(messageLabel)
 
-        val messageTextField = JTextField()
         messageTextField.preferredSize = Dimension(100, 20)
         messageTextField.alignmentX = CENTER_ALIGNMENT
         middlePanel.add(messageTextField)
@@ -87,7 +89,6 @@ class GUI : JFrame("MQTT Client") {
         logPanel.add(logLabel)
         logPanel.add(Box.createVerticalGlue())
 
-        val logList = JList<String>()
         logList.selectionMode = ListSelectionModel.SINGLE_SELECTION
 
         val scrollPane = JScrollPane(logList) //TODO: Not working, it isnt visible
@@ -96,11 +97,11 @@ class GUI : JFrame("MQTT Client") {
         isVisible = true
     }
 
-    private fun connectButtonClicked(username: String, password: String) {
+    fun connectButtonClicked(username: String, password: String) {
         //TODO: Send username/password to Sven + update Status if connection works
     }
 
-    private fun sendButtonClicked(message: String) {
+    fun sendButtonClicked(message: String) {
         //TODO: Send message
     }
 }
