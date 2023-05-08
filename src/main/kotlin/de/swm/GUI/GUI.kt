@@ -13,6 +13,7 @@ class GUI : JFrame("MQTT Client") {
     val connectionStatusLabel = JLabel("Disconnected")
     val messageTextField = JTextField()
     val logList = JList<String>()
+    private var loginStatus: Boolean = false
 
     init {
         createGUI()
@@ -99,12 +100,12 @@ class GUI : JFrame("MQTT Client") {
     }
 
     private fun connectButtonClicked() {
-        WebSocketClient().login(usernameTextField.text, passwordTextField.text)
+        loginStatus = WebSocketClient().login(usernameTextField.text, passwordTextField.text) //Returns boolean if login was successfully or not
+        if (loginStatus) connectionStatusLabel.text = "Connected"
     }
 
     private fun sendButtonClicked() {
-        if (connectionStatusLabel.text == "Connected")
-            WebSocketClient().sendMessage(usernameTextField.text, passwordTextField.text, messageTextField.text)
+        if (loginStatus) WebSocketClient().sendMessage(usernameTextField.text, passwordTextField.text, messageTextField.text)
         else messageTextField.text = "You are not connected!"
     }
 }
