@@ -54,14 +54,14 @@ class EchoHandler : WebSocketHandler {
 
 
 class WebSocketClient {
-    fun login() {
-        //
+    fun login(username: String, password: String) {
+        //TODO: Write it + if connection works, update StatusLabel
     }
 
-    fun sendMessage() {
-        //
+    fun sendMessage(message: String) {
+        //TODO: Write it
     }
-    
+
     fun start() {
         val client: WebSocketClient = ReactorNettyWebSocketClient()
         client.execute(

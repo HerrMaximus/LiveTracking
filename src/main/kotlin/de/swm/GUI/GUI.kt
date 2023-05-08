@@ -1,5 +1,6 @@
 package de.swm.gui
 
+import de.swm.websocket.WebSocketClient
 import java.awt.BorderLayout
 import java.awt.Color
 import java.awt.Dimension
@@ -48,7 +49,7 @@ class GUI : JFrame("MQTT Client") {
         topPanel.add(connectPanel)
 
         val connectButton = JButton("Connect")
-        connectButton.addActionListener { connectButtonClicked(usernameTextField.text, passwordTextField.text) }
+        connectButton.addActionListener { connectButtonClicked() }
         connectPanel.add(connectButton)
 
         val statusLabel = JLabel("Status: ")
@@ -74,7 +75,7 @@ class GUI : JFrame("MQTT Client") {
 
         val sendButton = JButton("Send")
         sendButton.alignmentX = CENTER_ALIGNMENT
-        sendButton.addActionListener { sendButtonClicked(messageTextField.text) }
+        sendButton.addActionListener { sendButtonClicked() }
         middlePanel.add(sendButton)
 
         //Lower area
@@ -97,11 +98,12 @@ class GUI : JFrame("MQTT Client") {
         isVisible = true
     }
 
-    fun connectButtonClicked(username: String, password: String) {
+    private fun connectButtonClicked() {
+        WebSocketClient().login(usernameTextField.text, passwordTextField.text)
         //TODO: Send username/password to Sven + update Status if connection works
     }
 
-    fun sendButtonClicked(message: String) {
-        //TODO: Send message
+    private fun sendButtonClicked() {
+        WebSocketClient().sendMessage(messageTextField.text)
     }
 }
