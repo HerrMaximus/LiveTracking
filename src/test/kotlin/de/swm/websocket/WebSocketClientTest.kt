@@ -2,11 +2,11 @@ package de.swm.websocket
 
 import org.junit.jupiter.api.Test
 
-class ReactiveWebSocketClientTest {
+class WebSocketClientTest {
 
     @Test
     fun main() {
-        val client = ReactiveWebSocketClient()
+        val client = WebSocketClient()
         client.start()
     }
 }

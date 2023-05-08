@@ -53,7 +53,15 @@ class EchoHandler : WebSocketHandler {
 
 
 
-class ReactiveWebSocketClient {
+class WebSocketClient {
+    fun login() {
+        //
+    }
+
+    fun sendMessage() {
+        //
+    }
+    
     fun start() {
         val client: WebSocketClient = ReactorNettyWebSocketClient()
         client.execute(
