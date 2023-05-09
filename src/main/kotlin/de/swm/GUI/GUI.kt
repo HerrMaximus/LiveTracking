@@ -101,7 +101,10 @@ class GUI : JFrame("MQTT Client") {
 
     private fun connectButtonClicked() {
         loginStatus = WebSocketClient().login(usernameTextField.text, passwordTextField.text) //Returns boolean if login was successfully or not
-        if (loginStatus) connectionStatusLabel.text = "Connected"
+        if (loginStatus) {
+            connectionStatusLabel.text = "Connected"
+            connectionStatusLabel.foreground = Color.green
+        }
     }
 
     private fun sendButtonClicked() {
