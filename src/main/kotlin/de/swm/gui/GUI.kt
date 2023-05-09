@@ -106,6 +106,11 @@ class GUI : JFrame("MQTT Client") {
             connectionStatusLabel.text = "Connected"
             connectionStatusLabel.foreground = Color.green
         }
+
+        val websocket = Websocket(usernameTextField.text, passwordTextField.text)
+        websocket.addListener {
+            addMessagesToLog(it)
+        }
     }
 
     private fun sendButtonClicked() {
