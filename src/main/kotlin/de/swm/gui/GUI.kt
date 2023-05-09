@@ -83,7 +83,7 @@ class GUI : JFrame("MQTT Client") {
         middlePanel.add(sendButton)
 
         //Lower area
-        //val logPanel = JPanel()
+        val logPanel = JPanel()
         logPanel.layout = BoxLayout(logPanel, BoxLayout.Y_AXIS)
         logPanel.preferredSize = Dimension(0, 100)
         add(logPanel, BorderLayout.SOUTH)
@@ -96,31 +96,22 @@ class GUI : JFrame("MQTT Client") {
 
         logList.selectionMode = ListSelectionModel.SINGLE_SELECTION
 
-        val scrollPane = JScrollPane(logList)
+        val scrollPane = JScrollPane(logList) //TODO: Not working, it isnt visible
         logPanel.add(scrollPane)
 
         isVisible = true
     }
 
     private fun connectButtonClicked() {
-        loginStatus = TestClass(usernameTextField.text, passwordTextField.text).login() //Return boolean if login was successfully or not
+        loginStatus = WebSocketClient().login(usernameTextField.text, passwordTextField.text) //Returns boolean if login was successfully or not
         if (loginStatus) {
             connectionStatusLabel.text = "Connected"
             connectionStatusLabel.foreground = Color.green
         }
-
-        val websocket = Websocket(usernameTextField.text, passwordTextField.text)
-        websocket.addListener {
-            addMessagesToLog(it)
-        }
     }
 
     private fun sendButtonClicked() {
-        if (loginStatus) Websocket(usernameTextField.text, passwordTextField.text).send(messageTextField.text) //Send message if login was successfully
+        if (loginStatus) WebSocketClient().sendMessage(usernameTextField.text, passwordTextField.text, messageTextField.text)
         else messageTextField.text = "You are not connected!"
-    }
-
-    private fun addMessagesToLog(message: String) {
-        model.addElement(message) //Add messages to logList
     }
 }
