@@ -1,6 +1,5 @@
 package de.swm.gui
 
-import de.swm.websocket.TestClass
 import de.swm.websocket.Websocket
 import java.awt.BorderLayout
 import java.awt.Color
@@ -103,7 +102,7 @@ class GUI : JFrame("MQTT Client") {
     }
 
     private fun connectButtonClicked() {
-        loginStatus = TestClass(usernameTextField.text, passwordTextField.text).login() //Return boolean if login was successfully or not
+        loginStatus = Websocket(usernameTextField.text, passwordTextField.text).login() //Return boolean if login was successfully or not
         if (loginStatus) {
             connectionStatusLabel.text = "Connected"
             connectionStatusLabel.foreground = Color.green
