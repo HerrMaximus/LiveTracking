@@ -15,7 +15,6 @@ class GUI : JFrame("MQTT Client") {
     private val model = DefaultListModel<String>()
     private val logList = JList(model)
     private var loginStatus: Boolean = false
-    private val logPanel = JPanel()
 
     init {
         createGUI()
@@ -82,7 +81,7 @@ class GUI : JFrame("MQTT Client") {
         middlePanel.add(sendButton)
 
         //Lower area
-        //val logPanel = JPanel()
+        val logPanel = JPanel()
         logPanel.layout = BoxLayout(logPanel, BoxLayout.Y_AXIS)
         logPanel.preferredSize = Dimension(0, 100)
         add(logPanel, BorderLayout.SOUTH)

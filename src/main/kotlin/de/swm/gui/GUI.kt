@@ -15,7 +15,6 @@ class GUI : JFrame("MQTT Client") {
     private val model = DefaultListModel<String>()
     private val logList = JList(model)
     private var loginStatus: Boolean = false
-    private val logPanel = JPanel()
 
     init {
         createGUI()
@@ -95,7 +94,7 @@ class GUI : JFrame("MQTT Client") {
 
         logList.selectionMode = ListSelectionModel.SINGLE_SELECTION
 
-        val scrollPane = JScrollPane(logList) //TODO: Not working, it isnt visible
+        val scrollPane = JScrollPane(logList)
         logPanel.add(scrollPane)
 
         isVisible = true
