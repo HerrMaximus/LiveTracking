@@ -1,11 +1,9 @@
 package de.swm.gui
 
 import de.swm.websocket.Websocket
-import java.awt.BorderLayout
-import java.awt.Color
-import java.awt.Dimension
-import java.awt.FlowLayout
+import java.awt.*
 import javax.swing.*
+import javax.swing.border.EmptyBorder
 
 class GUI : JFrame("MQTT Client") {
     private val usernameTextField = JTextField()
@@ -23,31 +21,31 @@ class GUI : JFrame("MQTT Client") {
     private fun createGUI() {
         defaultCloseOperation = EXIT_ON_CLOSE
         size = Dimension(400, 600)
-        setLocationRelativeTo(null) //Center from the monitor
+        setLocationRelativeTo(null) // Center from the monitor
         layout = BorderLayout(10, 10)
 
-        //Upper area
+        // Upper area
         val topPanel = JPanel()
         topPanel.layout = BoxLayout(topPanel, BoxLayout.Y_AXIS)
         add(topPanel, BorderLayout.NORTH)
 
         val usernameLabel = JLabel("Username:")
-        usernameLabel.alignmentX = CENTER_ALIGNMENT
+        usernameLabel.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(usernameLabel)
 
-        usernameTextField.alignmentX = CENTER_ALIGNMENT
+        usernameTextField.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(usernameTextField)
 
         val passwordLabel = JLabel("Password:")
-        passwordLabel.alignmentX = CENTER_ALIGNMENT
+        passwordLabel.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(passwordLabel)
 
-        passwordTextField.alignmentX = CENTER_ALIGNMENT
+        passwordTextField.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(passwordTextField)
 
         val connectPanel = JPanel()
         connectPanel.layout = FlowLayout(FlowLayout.CENTER)
-        connectPanel.alignmentX = CENTER_ALIGNMENT
+        connectPanel.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(connectPanel)
 
         val connectButton = JButton("Connect")
@@ -55,42 +53,52 @@ class GUI : JFrame("MQTT Client") {
         connectPanel.add(connectButton)
 
         val statusLabel = JLabel("Status: ")
-        statusLabel.alignmentX = CENTER_ALIGNMENT
+        statusLabel.alignmentX = Component.CENTER_ALIGNMENT
         connectPanel.add(statusLabel)
 
         connectionStatusLabel.foreground = Color.red
-        connectionStatusLabel.alignmentX = CENTER_ALIGNMENT
+        connectionStatusLabel.alignmentX = Component.CENTER_ALIGNMENT
         connectPanel.add(connectionStatusLabel)
 
-        //Middle area
+        // Middle area
         val middlePanel = JPanel()
         middlePanel.layout = BoxLayout(middlePanel, BoxLayout.Y_AXIS)
+        middlePanel.alignmentX = Component.CENTER_ALIGNMENT
+        middlePanel.border = EmptyBorder(20, 0, 20, 0) // Increased spacing from connectPanel
         add(middlePanel, BorderLayout.CENTER)
 
         val messageLabel = JLabel("Message:")
-        messageLabel.alignmentX = CENTER_ALIGNMENT
+        messageLabel.alignmentX = Component.CENTER_ALIGNMENT
         middlePanel.add(messageLabel)
 
-        messageTextField.preferredSize = Dimension(100, 20)
-        messageTextField.alignmentX = CENTER_ALIGNMENT
-        middlePanel.add(messageTextField)
+        val messagePanel = JPanel()
+        messagePanel.layout = BoxLayout(messagePanel, BoxLayout.X_AXIS)
+        messagePanel.alignmentX = Component.CENTER_ALIGNMENT
+        middlePanel.add(messagePanel)
+
+        messageTextField.preferredSize = Dimension(100, messageTextField.preferredSize.height) // Reducing the width
+        messageTextField.alignmentX = Component.LEFT_ALIGNMENT
+        messagePanel.add(messageTextField)
 
         val sendButton = JButton("Send")
-        sendButton.alignmentX = CENTER_ALIGNMENT
+        sendButton.alignmentX = Component.CENTER_ALIGNMENT
         sendButton.addActionListener { sendButtonClicked() }
-        middlePanel.add(sendButton)
 
-        //Lower area
+        val sendButtonPanel = JPanel()
+        sendButtonPanel.layout = BoxLayout(sendButtonPanel, BoxLayout.X_AXIS)
+        sendButtonPanel.alignmentX = Component.CENTER_ALIGNMENT
+        sendButtonPanel.add(sendButton)
+        middlePanel.add(sendButtonPanel)
+
+        // Lower area
         val logPanel = JPanel()
         logPanel.layout = BoxLayout(logPanel, BoxLayout.Y_AXIS)
-        logPanel.preferredSize = Dimension(0, 100)
+        logPanel.preferredSize = Dimension(0, 300) // Increasing the height
         add(logPanel, BorderLayout.SOUTH)
 
         val logLabel = JLabel("Log:")
-        logLabel.alignmentX = CENTER_ALIGNMENT
-        logPanel.add(Box.createVerticalGlue())
+        logLabel.alignmentX = Component.CENTER_ALIGNMENT
         logPanel.add(logLabel)
-        logPanel.add(Box.createVerticalGlue())
 
         logList.selectionMode = ListSelectionModel.SINGLE_SELECTION
 
