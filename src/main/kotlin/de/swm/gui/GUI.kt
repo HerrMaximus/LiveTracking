@@ -114,7 +114,11 @@ class GUI : JFrame("MQTT Client") {
     }
 
     private fun sendButtonClicked() {
-        if (loginStatus) WebSocketClient().sendMessage(usernameTextField.text, passwordTextField.text, messageTextField.text)
+        if (loginStatus) Websocket(usernameTextField.text, passwordTextField.text).send(messageTextField.text) //Send message if login was successfully
         else messageTextField.text = "You are not connected!"
+    }
+
+    private fun addMessagesToLog(message: String) {
+        model.addElement(message) //Add messages to logList
     }
 }
