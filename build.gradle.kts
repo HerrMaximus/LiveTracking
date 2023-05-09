@@ -24,6 +24,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("io.projectreactor.netty:reactor-netty-http")
     implementation ("org.springframework.boot:spring-boot-starter-websocket")
+    implementation ("com.squareup.okhttp3:okhttp:4.9.1")
     developmentOnly(group = "org.springframework.boot", name = "spring-boot-devtools")
     testImplementation(group = "org.springframework.boot", name = "spring-boot-starter-test")
 }

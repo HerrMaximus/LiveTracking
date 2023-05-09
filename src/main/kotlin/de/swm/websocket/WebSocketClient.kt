@@ -1,75 +1,39 @@
 package de.swm.websocket
 
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.context.annotation.Bean
-import org.springframework.context.annotation.Configuration
-import org.springframework.core.Ordered
-import org.springframework.stereotype.Component
-import org.springframework.web.reactive.HandlerMapping
-import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping
-import org.springframework.web.reactive.socket.WebSocketHandler
-import org.springframework.web.reactive.socket.WebSocketMessage
-import org.springframework.web.reactive.socket.WebSocketSession
-import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient
-import org.springframework.web.reactive.socket.client.WebSocketClient
-import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter
-import org.springframework.web.socket.config.annotation.EnableWebSocket
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
-import java.net.URI
-import java.time.Duration
-import java.util.*
+import org.springframework.http.HttpHeaders
+import org.springframework.http.MediaType
+import org.springframework.web.reactive.function.client.WebClient
 
-@Configuration
-@EnableWebSocket
-class WebSocketConfig {
-
-    @Autowired
-    private lateinit var webSocketHandler: WebSocketHandler
-    @Bean
-    fun webSocketHandlerMapping(): HandlerMapping {
-        val mapping = SimpleUrlHandlerMapping()
-        mapping.urlMap = Collections.singletonMap("/echo", webSocketHandler)
-        mapping.order = Ordered.HIGHEST_PRECEDENCE
-        return mapping
-    }
-
-    @Bean
-    fun handlerAdapter(): WebSocketHandlerAdapter {
-        return WebSocketHandlerAdapter()
-    }
-}
-
-
-
-@Component
-class EchoHandler : WebSocketHandler {
-    override fun handle(session: WebSocketSession): Mono<Void> {
-        val output: Flux<WebSocketMessage> = session.receive()
-            .map { msg -> session.textMessage("ECHO -> ${msg.payloadAsText}") }
-        return session.send(output)
-    }
-}
-
-
+data class Response(
+    val type: String? = null,
+    val title: String? = null,
+    val status: String? = null,
+    val detail: String? = null,
+    val instance: String? = null
+)
 
 class WebSocketClient {
-    fun login(username: String, password: String) {
-        //TODO: Write it + if connection works, update StatusLabel
+
+    fun login(username: String, password: String): Boolean {
+        val client = WebClient.builder()
+            .baseUrl("http://mischiefsmp.com:8080")
+            .build()
+        return client.post().uri { uriBuilder ->
+            uriBuilder.path("/join")
+            uriBuilder.queryParam("username", username)
+            uriBuilder.queryParam("password", password).build()
+        }
+            .retrieve()
+            .bodyToMono(Response::class.java)
+            .map { response ->
+                response.title == "OK"
+            }.block() ?: false
     }
 
-    fun sendMessage(message: String) {
-        //TODO: Write it
+    fun sendMessage(username: String, password: String, message: String) {
     }
 
-    fun start() {
-        val client: WebSocketClient = ReactorNettyWebSocketClient()
-        client.execute(
-            URI.create("wss://socketsbay.com/wss/v2/1/demo/")
-        ) { session ->
-            session.send(Flux.just(session.textMessage("Hello")))
-                .thenMany(session.receive().take(1).log())
-                .then()
-        }.block(Duration.ofMillis(5000))
+    fun receiveMessage() {
+        //TODO: Implement it
     }
 }
