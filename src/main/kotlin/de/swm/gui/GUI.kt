@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder
 
 class GUI : JFrame("MQTT Client") {
     private val usernameTextField = JTextField()
-    private val passwordTextField = JTextField()
+    private val passwordTextField = JPasswordField()
     private val connectionStatusLabel = JLabel("Disconnected")
     private val messageTextField = JTextField()
     private val model = DefaultListModel<String>()
