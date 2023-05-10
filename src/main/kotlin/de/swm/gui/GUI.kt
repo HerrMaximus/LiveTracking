@@ -7,7 +7,7 @@ import javax.swing.border.EmptyBorder
 
 class GUI : JFrame("MQTT Client") {
     private val usernameTextField = JTextField()
-    private val passwordTextField = JPasswordField()
+    private val passwordPasswordField = JPasswordField()
     private val connectionStatusLabel = JLabel("Disconnected")
     private val messageTextField = JTextField()
     private val model = DefaultListModel<String>()
@@ -40,8 +40,8 @@ class GUI : JFrame("MQTT Client") {
         passwordLabel.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(passwordLabel)
 
-        passwordTextField.alignmentX = Component.CENTER_ALIGNMENT
-        topPanel.add(passwordTextField)
+        passwordPasswordField.alignmentX = Component.CENTER_ALIGNMENT
+        topPanel.add(passwordPasswordField)
 
         val connectPanel = JPanel()
         connectPanel.layout = FlowLayout(FlowLayout.CENTER)
@@ -109,20 +109,20 @@ class GUI : JFrame("MQTT Client") {
     }
 
     private fun connectButtonClicked() {
-        loginStatus = Websocket(usernameTextField.text, passwordTextField.text).login() //Return boolean if login was successfully or not
+        loginStatus = Websocket(usernameTextField.text, String(passwordPasswordField.password)).login() //Return boolean if login was successfully or not
         if (loginStatus) {
             connectionStatusLabel.text = "Connected"
             connectionStatusLabel.foreground = Color.green
         }
 
-        val websocket = Websocket(usernameTextField.text, passwordTextField.text)
+        val websocket = Websocket(usernameTextField.text, String(passwordPasswordField.password))
         websocket.addListener {
             addMessagesToLog(it)
         }
     }
 
     private fun sendButtonClicked() {
-        if (loginStatus) Websocket(usernameTextField.text, passwordTextField.text).send(messageTextField.text) //Send message if login was successfully
+        if (loginStatus) Websocket(usernameTextField.text, String(passwordPasswordField.password)).send(messageTextField.text) //Send message if login was successfully
         else messageTextField.text = "You are not connected!"
     }
 
