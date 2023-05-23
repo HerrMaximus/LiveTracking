@@ -2,6 +2,8 @@ package de.swm.gui
 
 import de.swm.websocket.Websocket
 import java.awt.*
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
 
@@ -117,7 +119,9 @@ class GUI : JFrame("MQTT Client") {
 
         val websocket = Websocket(usernameTextField.text, String(passwordPasswordField.password))
         websocket.addListener {
-            addMessagesToLog(it)
+            val date = Date(it.time!!)
+            val format = SimpleDateFormat("hh:mm:s")
+            addMessagesToLog("${it.username}: ${it.message} (${format.format(date)})")
         }
     }
 

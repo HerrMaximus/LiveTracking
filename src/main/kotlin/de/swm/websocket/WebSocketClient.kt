@@ -1,5 +1,6 @@
 package de.swm.websocket
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.messaging.converter.MappingJackson2MessageConverter
 import org.springframework.messaging.converter.MessageConversionException
 import org.springframework.messaging.simp.stomp.*
@@ -10,6 +11,9 @@ import org.springframework.web.socket.client.standard.StandardWebSocketClient
 import org.springframework.web.socket.messaging.WebSocketStompClient
 
 class Websocket(private val username: String, private val password: String) {
+
+    data class MessageResponse(var username: String? = null, var message: String? = null, var time: Long? = null)
+
 
     fun login(): Boolean {
         val client = WebClient.create("http://mischiefsmp.com:8080")
@@ -24,16 +28,18 @@ class Websocket(private val username: String, private val password: String) {
             .map { it.contains("\"title\":\"OK\"") } //Return true if title == OK
             .block() ?: false //Return false if something went wrong
     }
+
     data class Message(val username: String, val password: String, val message: String)
 
     private val session: StompSession //Connection to WebSocket until I say goodby
-    private val listeners = ArrayList<(String) -> (Unit)>()
+    private val listeners = ArrayList<(MessageResponse) -> (Unit)>()
 
-    fun addListener(listener: ((String) -> (Unit))) {
+    fun addListener(listener: ((Websocket.MessageResponse) -> (Unit))) {
         listeners.add(listener)
     }
 
     init {
+        login()
         val scheduler = ThreadPoolTaskScheduler()
         scheduler.initialize()
 
@@ -67,7 +73,7 @@ class Websocket(private val username: String, private val password: String) {
             ) {
                 if (exception is MessageConversionException) {
                     listeners.forEach {
-                        it.invoke(String(payload))
+                        it.invoke(jacksonObjectMapper().readValue(String(payload), MessageResponse::class.java))
                     }
                 }
 
