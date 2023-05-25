@@ -7,6 +7,12 @@ import java.util.*
 import javax.swing.*
 import javax.swing.border.EmptyBorder
 
+data class DropdownItem(val label: String, val id: String) {
+    override fun toString() = label
+    override fun equals(other: Any?) = other is DropdownItem && other.id == id
+    override fun hashCode() = id.hashCode()
+}
+
 class GUI : JFrame("MQTT Client") {
     private val usernameTextField = JTextField()
     private val passwordPasswordField = JPasswordField()
@@ -15,6 +21,7 @@ class GUI : JFrame("MQTT Client") {
     private val model = DefaultListModel<String>()
     private val logList = JList(model)
     private var loginStatus: Boolean = false
+    private val dropdown = JComboBox<DropdownItem>()
 
     init {
         createGUI()
@@ -49,6 +56,9 @@ class GUI : JFrame("MQTT Client") {
         connectPanel.layout = FlowLayout(FlowLayout.CENTER)
         connectPanel.alignmentX = Component.CENTER_ALIGNMENT
         topPanel.add(connectPanel)
+
+        dropdown.alignmentX = Component.LEFT_ALIGNMENT
+        connectPanel.add(dropdown)
 
         val connectButton = JButton("Connect")
         connectButton.addActionListener { connectButtonClicked() }
