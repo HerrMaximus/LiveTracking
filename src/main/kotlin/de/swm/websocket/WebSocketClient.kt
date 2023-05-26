@@ -1,6 +1,8 @@
 package de.swm.websocket
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import de.swm.gui.DropdownItem
+import de.swm.gui.GUI
 import org.springframework.messaging.converter.MappingJackson2MessageConverter
 import org.springframework.messaging.converter.MessageConversionException
 import org.springframework.messaging.simp.stomp.*
@@ -51,7 +53,15 @@ class Websocket(private val username: String, private val password: String) {
         headers.add("username", username)
         headers.add("password", password)
 
-        session = client.connectAsync("ws://89.58.39.209:8080/chat", null, headers, object : StompSessionHandler {
+        val selectedDropdownItem = dropdown.selectedItem as DropdownItem
+        val port = when (selectedDropdownItem.id) {
+            "EU" -> 8070
+            "US" -> 8060
+            else -> throw IllegalArgumentException("Invalid ID/Server: ${selectedDropdownItem.id}")
+        }
+
+        session = client.connectAsync("ws://89.58.39.209:$port", null, headers, object : StompSessionHandler {
+            //8080 = History Server, 8070 = Europa, 8060 = America
             override fun getPayloadType(headers: StompHeaders) = String::class.java
             override fun handleFrame(headers: StompHeaders, payload: Any?) {}
             override fun afterConnected(session: StompSession, connectedHeaders: StompHeaders) {
