@@ -58,6 +58,12 @@ class GUI : JFrame("MQTT Client") {
         topPanel.add(connectPanel)
 
         dropdown.alignmentX = Component.LEFT_ALIGNMENT
+        val dropdownItems = arrayOf(
+            DropdownItem("Europa", "EU"),
+            DropdownItem("America", "US")
+        )
+        val model = DefaultComboBoxModel(dropdownItems)
+        dropdown.model = model
         connectPanel.add(dropdown)
 
         val connectButton = JButton("Connect")
