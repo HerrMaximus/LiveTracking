@@ -2,7 +2,7 @@ package de.swm.websocket
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import de.swm.gui.DropdownItem
-import de.swm.gui.GUI
+import de.swm.gui.GUI.Companion.dropdown
 import org.springframework.messaging.converter.MappingJackson2MessageConverter
 import org.springframework.messaging.converter.MessageConversionException
 import org.springframework.messaging.simp.stomp.*

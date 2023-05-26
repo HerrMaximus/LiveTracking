@@ -21,7 +21,10 @@ class GUI : JFrame("MQTT Client") {
     private val model = DefaultListModel<String>()
     private val logList = JList(model)
     private var loginStatus: Boolean = false
-    private val dropdown = JComboBox<DropdownItem>()
+
+    companion object {
+        val dropdown = JComboBox<DropdownItem>()
+    }
 
     init {
         createGUI()
